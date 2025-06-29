@@ -97,3 +97,24 @@ class TestBooksCollector:
         collector.add_book_in_favorites(book2)
         favorites = collector.get_list_of_favorites_books()
         assert set(favorites) == {book1, book2}  # Проверяем, что обе книги в избранном
+
+    def test_get_book_genre(self):
+        collector = BooksCollector()
+        book_name = "Война и мир"
+        collector.add_new_book(book_name)
+        collector.set_book_genre(book_name, "Фантастика")
+        assert collector.get_book_genre(book_name) == "Фантастика"  # Проверяем, что жанр возвращается правильно
+        assert collector.get_book_genre(
+            "Несуществующая книга") is None  # Проверяем, что для несуществующей книги возвращается None
+
+    def test_get_books_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book("Война и мир")
+        collector.set_book_genre("Война и мир", "Фантастика")
+        collector.add_new_book("1984")
+        collector.set_book_genre("1984", "Детективы")
+        expected_genre_dict = {
+            "Война и мир": "Фантастика",
+            "1984": "Детективы"
+        }
+        assert collector.get_books_genre() == expected_genre_dict  # Проверяем, что возвращается правильный словарь
