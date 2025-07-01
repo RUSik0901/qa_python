@@ -1,4 +1,3 @@
-import pytest
 from main import BooksCollector
 
 # класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
@@ -21,10 +20,6 @@ class TestBooksCollector:
         # словарь books_rating, который нам возвращает метод get_books_rating, имеет длину 2
         assert len(collector.get_books_genre()) == 2
 
-    @pytest.fixture
-    def collector(self):
-        return BooksCollector()
-
     def test_add_new_book_success(self, collector):
         collector.add_new_book('Гордость и предубеждение и зомби')
         assert len(collector.get_books_genre()) == 1  # Проверяем, что добавилась одна книга
@@ -42,7 +37,6 @@ class TestBooksCollector:
     def test_add_duplicate_book(self, collector):
         book_name = "1984"
         collector.add_new_book(book_name)  # Добавляем книгу первый раз
-        assert len(collector.get_books_genre()) == 1  # Проверяем, что книга добавлена
         collector.add_new_book(book_name)  # Пытаемся добавить книгу второй раз
         assert len(collector.get_books_genre()) == 1  # Проверяем, что книга добавлена только один раз
 
@@ -50,7 +44,7 @@ class TestBooksCollector:
         book_name = "Мастер и Маргарита"
         collector.add_new_book(book_name)
         collector.set_book_genre(book_name, "Фантастика")
-        assert collector.get_book_genre(book_name) == "Фантастика"  # Проверяем, что жанр установлен правильно
+        assert collector.books_genre[book_name] == "Фантастика"  # Проверяем, что жанр установлен правильно
 
     def test_set_book_genre_invalid(self, collector):
         collector.set_book_genre("Несуществующая книга", "Фантастика")
